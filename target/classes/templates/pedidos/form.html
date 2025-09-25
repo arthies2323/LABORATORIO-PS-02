@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"/><title>Novo Pedido</title></head>
+<body>
+  <h1>Novo Pedido</h1>
+  <form th:action="@{/pedidos/salvar}" th:object="${pedido}" method="post">
+    <div>
+      <label>Cliente ID (preencha com seu ID)</label>
+      <input type="number" th:field="*{cliente.id}" />
+    </div>
+    <div>
+      <label>Veículo</label>
+      <select th:field="*{veiculo.id}">
+        <option th:each="v : ${veiculos}" th:value="${v.id}" th:text="${v.marca + ' ' + v.modelo}">Veículo</option>
+      </select>
+    </div>
+    <div>
+      <label>Data Início</label>
+      <input type="date" th:field="*{dataInicio}" />
+    </div>
+    <div>
+      <label>Data Fim</label>
+      <input type="date" th:field="*{dataFim}" />
+    </div>
+    <div>
+      <button type="submit">Enviar Pedido</button>
+      <a th:href="@{/pedidos}">Cancelar</a>
+    </div>
+  </form>
+</body>
+</html>

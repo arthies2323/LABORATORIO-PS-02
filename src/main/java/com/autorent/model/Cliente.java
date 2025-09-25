@@ -1,46 +1,52 @@
 package com.autorent.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
-@NoArgsConstructor
+@Entity
 public class Cliente {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "O RG é obrigatório")
-    private String rg;
-
-    @NotBlank(message = "O CPF é obrigatório")
-    private String cpf;
-
-    @NotBlank(message = "O nome é obrigatório")
+    @NotBlank
     private String nome;
 
-    @NotBlank(message = "O endereço é obrigatório")
-    private String endereco;
+    @NotBlank
+    private String cpf;
 
-    @NotBlank(message = "A profissão é obrigatória")
+    private String rg;
+    private String endereco;
     private String profissao;
 
-    // Lista de entidades empregadoras (máximo 3)
-    @Size(max = 3, message = "Máximo de 3 entidades empregadoras permitidas")
-    private List<EntidadeEmpregadora> entidadesEmpregadoras = new ArrayList<>();
+    @ElementCollection
+    @CollectionTable(name = "cliente_empregadoras", joinColumns = @JoinColumn(name = "cliente_id"))
+    private java.util.List<Empregador> empregadores = new java.util.ArrayList<>();
 
-    // Classe interna para representar entidade empregadora e rendimento
-    @Data
-    @NoArgsConstructor
-    public static class EntidadeEmpregadora {
-        @NotBlank(message = "Nome da entidade empregadora é obrigatório")
-        private String nome;
-        
-        @NotNull(message = "Rendimento é obrigatório")
-        private Double rendimento;
-    }
+    public Cliente() {}
+
+    // getters e setters
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+
+    public String getCpf() { return cpf; }
+    public void setCpf(String cpf) { this.cpf = cpf; }
+
+    public String getRg() { return rg; }
+    public void setRg(String rg) { this.rg = rg; }
+
+    public String getEndereco() { return endereco; }
+    public void setEndereco(String endereco) { this.endereco = endereco; }
+
+    public String getProfissao() { return profissao; }
+    public void setProfissao(String profissao) { this.profissao = profissao; }
+
+    public java.util.List<Empregador> getEmpregadores() { return empregadores; }
+    public void setEmpregadores(java.util.List<Empregador> empregadores) { this.empregadores = empregadores; }
 }

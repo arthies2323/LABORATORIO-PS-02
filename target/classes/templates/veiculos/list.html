@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"/><title>Veículos</title></head>
+<body>
+  <h1>Veículos</h1>
+  <a th:href="@{/}">Voltar</a> | <a th:href="@{/veiculos/novo}">Novo Veículo</a>
+  <table border="1">
+  <thead><tr><th>ID</th><th>Marca</th><th>Modelo</th><th>Ano</th><th>Placa</th><th>Ações</th></tr></thead>
+  <tbody>
+    <tr th:each="v : ${veiculos}">
+      <td th:text="${v.id}">1</td>
+      <td th:text="${v.marca}">Marca</td>
+      <td th:text="${v.modelo}">Modelo</td>
+      <td th:text="${v.ano}">Ano</td>
+      <td th:text="${v.placa}">Placa</td>
+      <td>
+        <a th:href="@{|/veiculos/editar/${v.id}|}">Editar</a>
+        <a th:href="@{|/veiculos/excluir/${v.id}|}" onclick="return confirm('Excluir?')">Excluir</a>
+      </td>
+    </tr>
+  </tbody>
+  </table>
+</body>
+</html>

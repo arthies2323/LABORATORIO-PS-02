@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"/><title>Avaliar Pedido</title></head>
+<body>
+  <h1>Avaliar Pedido</h1>
+  <div>
+    <p>ID: <span th:text="${pedido.id}"></span></p>
+    <p>Cliente: <span th:text="${pedido.cliente != null ? pedido.cliente.nome : '---'}"></span></p>
+    <p>Veículo: <span th:text="${pedido.veiculo != null ? pedido.veiculo.marca + ' ' + pedido.veiculo.modelo : '---'}"></span></p>
+    <form th:action="@{|/pedidos/avaliar/${pedido.id}|}" method="post">
+      <button name="acao" value="aprovar" type="submit">Aprovar</button>
+      <button name="acao" value="rejeitar" type="submit">Rejeitar</button>
+    </form>
+  </div>
+  <div><a th:href="@{/pedidos}">Voltar</a></div>
+</body>
+</html>

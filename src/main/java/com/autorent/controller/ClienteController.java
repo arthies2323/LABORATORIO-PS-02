@@ -1,98 +1,52 @@
 package com.autorent.controller;
 
 import com.autorent.model.Cliente;
-import com.autorent.repository.ClienteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.autorent.service.ClienteService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 @Controller
 @RequestMapping("/clientes")
 public class ClienteController {
+    private final ClienteService service;
 
-    private final ClienteRepository clienteRepository;
-
-    @Autowired
-    public ClienteController(ClienteRepository clienteRepository) {
-        this.clienteRepository = clienteRepository;
+    public ClienteController(ClienteService service) {
+        this.service = service;
     }
 
     @GetMapping
-    public String listarClientes(Model model) {
-        model.addAttribute("clientes", clienteRepository.findAll());
-        return "clientes/lista";
+    public String listar(Model model) {
+        model.addAttribute("clientes", service.findAll());
+        return "clientes/list";
     }
 
     @GetMapping("/novo")
-    public String novoCliente(Model model) {
+    public String novo(Model model) {
         model.addAttribute("cliente", new Cliente());
-        return "clientes/formulario";
+        return "clientes/form";
     }
 
-    @PostMapping
-    public String salvarCliente(@Valid @ModelAttribute("cliente") Cliente cliente,
-                               BindingResult result) {
+    @PostMapping("/salvar")
+    public String salvar(@Valid @ModelAttribute Cliente cliente, BindingResult result) {
         if (result.hasErrors()) {
-            return "clientes/formulario";
+            return "clientes/form";
         }
-        
-        clienteRepository.save(cliente);
+        service.save(cliente);
         return "redirect:/clientes";
     }
 
-    @GetMapping("/{id}/editar")
-    public String editarCliente(@PathVariable Long id, Model model) {
-        Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado com id: " + id));
-        model.addAttribute("cliente", cliente);
-        return "clientes/formulario";
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Long id, Model model) {
+        service.findById(id).ifPresent(c -> model.addAttribute("cliente", c));
+        return "clientes/form";
     }
 
-    @GetMapping("/{id}")
-    public String visualizarCliente(@PathVariable Long id, Model model) {
-        Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado com id: " + id));
-        model.addAttribute("cliente", cliente);
-        return "clientes/visualizar";
-    }
-
-    @PostMapping("/{id}/deletar")
-    public String deletarCliente(@PathVariable Long id) {
-        clienteRepository.deleteById(id);
+    @GetMapping("/excluir/{id}")
+    public String excluir(@PathVariable Long id) {
+        service.deleteById(id);
         return "redirect:/clientes";
-    }
-
-    // Para adicionar uma nova entidade empregadora no formulário
-    @GetMapping("/adicionarEmpregadora")
-    public String adicionarEmpregadora(Model model) {
-        if (!model.containsAttribute("cliente")) {
-            model.addAttribute("cliente", new Cliente());
-        }
-        
-        Cliente cliente = (Cliente) model.getAttribute("cliente");
-        if (cliente.getEntidadesEmpregadoras().size() < 3) {
-            cliente.getEntidadesEmpregadoras().add(new Cliente.EntidadeEmpregadora());
-        }
-        
-        return "clientes/formulario";
-    }
-
-    // Para remover uma entidade empregadora do formulário
-    @GetMapping("/removerEmpregadora/{index}")
-    public String removerEmpregadora(@PathVariable int index, Model model) {
-        if (!model.containsAttribute("cliente")) {
-            model.addAttribute("cliente", new Cliente());
-        }
-        
-        Cliente cliente = (Cliente) model.getAttribute("cliente");
-        if (index >= 0 && index < cliente.getEntidadesEmpregadoras().size()) {
-            cliente.getEntidadesEmpregadoras().remove(index);
-        }
-        
-        return "clientes/formulario";
     }
 }

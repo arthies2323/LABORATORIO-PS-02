@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"/><title>Pedido</title></head>
+<body>
+  <h1>Pedido</h1>
+  <div>
+    <p><strong>ID:</strong> <span th:text="${pedido.id}"></span></p>
+    <p><strong>Cliente:</strong> <span th:text="${pedido.cliente != null ? pedido.cliente.nome : '---'}"></span></p>
+    <p><strong>Veículo:</strong> <span th:text="${pedido.veiculo != null ? pedido.veiculo.marca + ' ' + pedido.veiculo.modelo : '---'}"></span></p>
+    <p><strong>Período:</strong> <span th:text="${pedido.dataInicio} + ' -> ' + ${pedido.dataFim}"></span></p>
+    <p><strong>Status:</strong> <span th:text="${pedido.status}"></span></p>
+  </div>
+  <div><a th:href="@{/pedidos}">Voltar</a></div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"/><title>Form Veículo</title></head>
+<body>
+  <h1 th:text="${#strings.isEmpty(veiculo.id) ? 'Novo Veículo' : 'Editar Veículo'}">Veículo</h1>
+  <form th:action="@{/veiculos/salvar}" th:object="${veiculo}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <div><label>Marca</label><input type="text" th:field="*{marca}" /></div>
+    <div><label>Modelo</label><input type="text" th:field="*{modelo}" /></div>
+    <div><label>Ano</label><input type="number" th:field="*{ano}" /></div>
+    <div><label>Placa</label><input type="text" th:field="*{placa}" /></div>
+    <div><button type="submit">Salvar</button> <a th:href="@{/veiculos}">Cancelar</a></div>
+  </form>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"/><title>Pedidos</title></head>
+<body>
+  <h1>Pedidos</h1>
+  <a th:href="@{/}">Voltar</a> | <a th:href="@{/pedidos/novo}">Novo Pedido</a>
+  <table border="1">
+    <thead><tr><th>ID</th><th>Cliente</th><th>Veículo</th><th>Período</th><th>Status</th><th>Ações</th></tr></thead>
+    <tbody>
+      <tr th:each="p : ${pedidos}">
+        <td th:text="${p.id}">1</td>
+        <td th:text="${p.cliente != null ? p.cliente.nome : '---'}">Cliente</td>
+        <td th:text="${p.veiculo != null ? p.veiculo.marca + ' ' + p.veiculo.modelo : '---'}">Veículo</td>
+        <td th:text="${p.dataInicio} + ' -> ' + ${p.dataFim}">Período</td>
+        <td th:text="${p.status}">Status</td>
+        <td>
+          <a th:href="@{|/pedidos/ver/${p.id}|}">Ver</a>
+          <a th:href="@{|/pedidos/cancelar/${p.id}|}" onclick="return confirm('Cancelar?')">Cancelar</a>
+          <a th:if="${#authorization.expression('hasRole(\'AGENTE\')')}" th:href="@{|/pedidos/avaliar/${p.id}|}">Avaliar</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>
