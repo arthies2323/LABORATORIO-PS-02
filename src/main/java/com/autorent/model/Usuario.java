@@ -16,7 +16,6 @@ public class Usuario {
     @NotBlank
     private String password;
 
-    @NotBlank
     private String role; // ROLE_CLIENTE or ROLE_AGENTE
 
     public Usuario() {}

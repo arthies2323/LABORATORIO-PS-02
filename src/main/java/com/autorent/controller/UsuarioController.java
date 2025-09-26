@@ -29,17 +29,33 @@ public class UsuarioController {
 
     @PostMapping("/register")
     public String register(@Valid Usuario usuario, BindingResult result, @RequestParam(defaultValue = "CLIENTE") String tipo) {
+        System.out.println("=== REGISTRO DE USUÁRIO ===");
+        System.out.println("Username: " + usuario.getUsername());
+        System.out.println("Tipo: " + tipo);
+        
         if (result.hasErrors()) {
+            System.out.println("Erros de validação: " + result.getAllErrors());
             return "auth/register";
         }
+        
         usuario.setPassword(encoder.encode(usuario.getPassword()));
         if ("AGENTE".equalsIgnoreCase(tipo)) {
             usuario.setRole("ROLE_AGENTE");
         } else {
             usuario.setRole("ROLE_CLIENTE");
         }
-        repo.save(usuario);
-        return "redirect:/login";
+        
+        System.out.println("Role definido: " + usuario.getRole());
+        
+        try {
+            Usuario saved = repo.save(usuario);
+            System.out.println("Usuário salvo com sucesso! ID: " + saved.getId());
+            return "redirect:/login";
+        } catch (Exception e) {
+            System.err.println("Erro ao salvar usuário: " + e.getMessage());
+            e.printStackTrace();
+            return "auth/register";
+        }
     }
 
     @GetMapping("/login")

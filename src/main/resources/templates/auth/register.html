@@ -1,18 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"/><title>Registrar</title></head>
+<head>
+  <meta charset="UTF-8"/>
+  <title>Registrar - AutoRent</title>
+  <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+</head>
 <body>
-  <h1>Registrar Usuário</h1>
-  <form th:action="@{/register}" th:object="${usuario}" method="post">
-    <div><label>Usuario</label><input th:field="*{username}" /></div>
-    <div><label>Senha</label><input th:field="*{password}" type="password"/></div>
-    <div><label>Tipo</label>
-      <select name="tipo">
-        <option value="CLIENTE">Cliente</option>
-        <option value="AGENTE">Agente</option>
-      </select>
+  <div class="container">
+    <h1>Registrar Usuário</h1>
+    <form th:action="@{/register}" th:object="${usuario}" method="post">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+      <div class="form-group">
+        <label>Usuário</label>
+        <input th:field="*{username}" type="text" required/>
+        <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color: red;">Erro</div>
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <input th:field="*{password}" type="password" required/>
+        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red;">Erro</div>
+      </div>
+      <div class="form-group">
+        <label>Tipo</label>
+        <select name="tipo">
+          <option value="CLIENTE">Cliente</option>
+          <option value="AGENTE">Agente</option>
+        </select>
+      </div>
+      <div class="form-group text-center">
+        <button type="submit" class="btn btn-success">Registrar</button>
+      </div>
+    </form>
+    <div class="text-center mt-3">
+      <p><a th:href="@{/login}">← Voltar para Login</a></p>
     </div>
-    <div><button type="submit">Registrar</button></div>
-  </form>
+  </div>
 </body>
 </html>

@@ -3,16 +3,22 @@
 <head>
   <meta charset="UTF-8"/>
   <title>AutoRent - Home</title>
+  <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
 </head>
 <body>
-  <h1>AutoRent - Sistema de Aluguel de Carros</h1>
-  <nav>
-    <a th:href="@{/veiculos}">Veículos</a> |
-    <a th:href="@{/clientes}">Clientes</a> |
-    <a th:href="@{/pedidos}">Pedidos</a> |
-    <a th:href="@{/}">Home</a> |
-    <a th:href="@{/login}">Login</a>
-  </nav>
-  <p>Protótipo MVC com Spring Boot, H2 e Thymeleaf.</p>
+  <div class="container">
+    <h1>AutoRent - Sistema de Aluguel de Carros</h1>
+    <nav>
+      <a th:href="@{/}">Home</a>
+      <a th:href="@{/veiculos}">Veículos</a>
+      <a th:href="@{/clientes}">Clientes</a>
+      <a th:href="@{/pedidos}">Pedidos</a>
+      <a th:href="@{/login}">Login</a>
+    </nav>
+    <div class="text-center">
+      <p>Bem-vindo ao sistema de aluguel de carros AutoRent!</p>
+      <p>Protótipo MVC desenvolvido com Spring Boot, H2 e Thymeleaf.</p>
+    </div>
+  </div>
 </body>
 </html>

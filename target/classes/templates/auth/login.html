@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"/><title>Login</title></head>
+<head>
+  <meta charset="UTF-8"/>
+  <title>Login - AutoRent</title>
+  <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+</head>
 <body>
-  <h1>Login</h1>
-  <form th:action="@{/login}" method="post">
-    <div><label>Usuario</label><input name="username"/></div>
-    <div><label>Senha</label><input name="password" type="password"/></div>
-    <div><button type="submit">Entrar</button></div>
-  </form>
-  <p><a th:href="@{/register}">Registrar</a></p>
+  <div class="container">
+    <h1>Login</h1>
+    <form th:action="@{/login}" method="post">
+      <div class="form-group">
+        <label>Usuário</label>
+        <input name="username" type="text" required/>
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <input name="password" type="password" required/>
+      </div>
+      <div class="form-group text-center">
+        <button type="submit" class="btn">Entrar</button>
+      </div>
+    </form>
+    <div class="text-center mt-3">
+      <p><a th:href="@{/register}" class="btn btn-success">Registrar-se</a></p>
+      <p><a th:href="@{/}">← Voltar para Home</a></p>
+    </div>
+  </div>
 </body>
 </html>
