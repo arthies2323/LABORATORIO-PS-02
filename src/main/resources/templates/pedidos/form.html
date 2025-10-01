@@ -1,31 +1,95 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"/><title>Novo Pedido</title></head>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Novo Pedido</title>
+  <link th:href="@{/css/pedido-form.css}" rel="stylesheet" type="text/css" />
+</head>
 <body>
-  <h1>Novo Pedido</h1>
-  <form th:action="@{/pedidos/salvar}" th:object="${pedido}" method="post">
-    <div>
-      <label>Cliente ID (preencha com seu ID)</label>
-      <input type="number" th:field="*{cliente.id}" />
+  <div class="container">
+    <div class="form-card">
+      <div class="form-header">
+        <div class="icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <h1>Novo Pedido de Aluguel</h1>
+        <p class="subtitle">Preencha os dados para solicitar o aluguel</p>
+      </div>
+      
+      <form th:action="@{/pedidos/salvar}" th:object="${pedido}" method="post">
+        <div class="form-group">
+          <label for="clienteId">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            ID do Cliente
+          </label>
+          <input type="number" id="clienteId" th:field="*{cliente.id}" placeholder="Digite seu ID de cliente" />
+          <small>Informe o ID do seu cadastro de cliente</small>
+        </div>
+        
+        <div class="form-group">
+          <label for="veiculoId">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 17H4a2 2 0 01-2-2V5a2 2 0 012-2h16a2 2 0 012 2v10a2 2 0 01-2 2h-1"></path>
+              <polygon points="12 15 17 21 7 21 12 15"></polygon>
+            </svg>
+            Veículo
+          </label>
+          <select id="veiculoId" th:field="*{veiculo.id}">
+            <option value="">Selecione um veículo</option>
+            <option th:each="v : ${veiculos}" th:value="${v.id}" th:text="${v.marca + ' ' + v.modelo + ' - ' + v.placa}">Veículo</option>
+          </select>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="dataInicio">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              Data Início
+            </label>
+            <input type="date" id="dataInicio" th:field="*{dataInicio}" />
+          </div>
+          
+          <div class="form-group">
+            <label for="dataFim">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              Data Fim
+            </label>
+            <input type="date" id="dataFim" th:field="*{dataFim}" />
+          </div>
+        </div>
+        
+        <div class="info-box">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <p>Seu pedido será enviado para análise e você receberá uma resposta em breve.</p>
+        </div>
+        
+        <div class="form-actions">
+          <a th:href="@{/pedidos}" class="btn btn-secondary">Cancelar</a>
+          <button type="submit" class="btn btn-primary">Enviar Pedido</button>
+        </div>
+      </form>
     </div>
-    <div>
-      <label>Veículo</label>
-      <select th:field="*{veiculo.id}">
-        <option th:each="v : ${veiculos}" th:value="${v.id}" th:text="${v.marca + ' ' + v.modelo}">Veículo</option>
-      </select>
-    </div>
-    <div>
-      <label>Data Início</label>
-      <input type="date" th:field="*{dataInicio}" />
-    </div>
-    <div>
-      <label>Data Fim</label>
-      <input type="date" th:field="*{dataFim}" />
-    </div>
-    <div>
-      <button type="submit">Enviar Pedido</button>
-      <a th:href="@{/pedidos}">Cancelar</a>
-    </div>
-  </form>
+  </div>
 </body>
 </html>

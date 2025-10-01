@@ -2,42 +2,104 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Veículos - AutoRent</title>
-  <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+  <link th:href="@{/css/veiculos.css}" rel="stylesheet" type="text/css" />
 </head>
 <body>
-  <div class="container">
-    <h1>Veículos</h1>
-    <nav class="mb-3">
-      <a th:href="@{/}" class="btn">← Home</a>
-      <a th:href="@{/veiculos/novo}" class="btn btn-success">+ Novo Veículo</a>
-    </nav>
-    
-    <table class="table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Marca</th>
-          <th>Modelo</th>
-          <th>Ano</th>
-          <th>Placa</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="v : ${veiculos}">
-          <td th:text="${v.id}">1</td>
-          <td th:text="${v.marca}">Marca</td>
-          <td th:text="${v.modelo}">Modelo</td>
-          <td th:text="${v.ano}">Ano</td>
-          <td th:text="${v.placa}">Placa</td>
-          <td>
-            <a th:href="@{|/veiculos/editar/${v.id}|}" class="btn">Editar</a>
-            <a th:href="@{|/veiculos/excluir/${v.id}|}" class="btn btn-danger" onclick="return confirm('Deseja realmente excluir este veículo?')">Excluir</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="page-wrapper">
+    <div class="container">
+      <div class="header-section">
+        <div class="title-group">
+          <h1 class="page-title">
+            <svg class="title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 17h14v-5H5v5z"/>
+              <path d="M5 17H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2"/>
+              <path d="M19 17h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"/>
+              <circle cx="7" cy="17" r="2"/>
+              <circle cx="17" cy="17" r="2"/>
+            </svg>
+            Veículos
+          </h1>
+          <p class="page-description">Gerencie a frota de veículos disponíveis</p>
+        </div>
+        
+        <nav class="action-nav">
+          <a th:href="@{/}" class="btn btn-outline">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            Home
+          </a>
+          <a th:href="@{/veiculos/novo}" class="btn btn-primary">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+            Novo Veículo
+          </a>
+        </nav>
+      </div>
+      
+      <div class="content-card">
+        <div class="table-container">
+          <table class="vehicles-table">
+            <thead>
+              <tr>
+                <th class="col-id">ID</th>
+                <th class="col-marca">Marca</th>
+                <th class="col-modelo">Modelo</th>
+                <th class="col-ano">Ano</th>
+                <th class="col-placa">Placa</th>
+                <th class="col-actions">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="v : ${veiculos}" class="vehicle-row">
+                <td><span class="id-badge" th:text="${v.id}">1</span></td>
+                <td class="marca-cell" th:text="${v.marca}">Marca</td>
+                <td class="modelo-cell" th:text="${v.modelo}">Modelo</td>
+                <td class="ano-cell" th:text="${v.ano}">2024</td>
+                <td><span class="placa-badge" th:text="${v.placa}">ABC-1234</span></td>
+                <td>
+                  <div class="action-group">
+                    <a th:href="@{|/veiculos/editar/${v.id}|}" class="action-btn edit-btn" title="Editar veículo">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                      </svg>
+                      <span>Editar</span>
+                    </a>
+                    <a th:href="@{|/veiculos/excluir/${v.id}|}" class="action-btn delete-btn" title="Excluir veículo"
+                      onclick="return confirm('Deseja realmente excluir este veículo?')">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"/>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                      </svg>
+                      <span>Excluir</span>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              <tr th:if="${veiculos.isEmpty()}" class="empty-row">
+                <td colspan="6">
+                  <div class="empty-state">
+                    <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M5 17h14v-5H5v5z"/>
+                      <circle cx="7" cy="17" r="2"/>
+                      <circle cx="17" cy="17" r="2"/>
+                    </svg>
+                    <h3>Nenhum veículo cadastrado</h3>
+                    <p>Comece adicionando o primeiro veículo à sua frota</p>
+                    <a th:href="@{/veiculos/novo}" class="btn btn-primary">Adicionar Veículo</a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 </html>

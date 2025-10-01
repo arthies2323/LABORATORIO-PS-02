@@ -1,15 +1,77 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"/><title>Pedido</title></head>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Avaliar Pedido</title>
+  <link th:href="@{/css/pedido-avaliar.css}" rel="stylesheet" type="text/css" />
+</head>
 <body>
-  <h1>Pedido</h1>
-  <div>
-    <p><strong>ID:</strong> <span th:text="${pedido.id}"></span></p>
-    <p><strong>Cliente:</strong> <span th:text="${pedido.cliente != null ? pedido.cliente.nome : '---'}"></span></p>
-    <p><strong>Veículo:</strong> <span th:text="${pedido.veiculo != null ? pedido.veiculo.marca + ' ' + pedido.veiculo.modelo : '---'}"></span></p>
-    <p><strong>Período:</strong> <span th:text="${pedido.dataInicio} + ' -> ' + ${pedido.dataFim}"></span></p>
-    <p><strong>Status:</strong> <span th:text="${pedido.status}"></span></p>
+  <div class="container">
+    <div class="avaliar-card">
+      <div class="card-header">
+        <div class="header-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        </div>
+        <h1>Avaliar Pedido</h1>
+        <p class="subtitle">Analise e tome uma decisão sobre o pedido</p>
+      </div>
+      
+      <div class="card-body">
+        <div class="pedido-info">
+          <div class="info-item">
+            <span class="info-label">ID do Pedido:</span>
+            <span class="info-value badge-id" th:text="${pedido.id}">1</span>
+          </div>
+          
+          <div class="info-item">
+            <span class="info-label">Cliente:</span>
+            <span class="info-value" th:text="${pedido.cliente != null ? pedido.cliente.nome : '---'}">João Silva</span>
+          </div>
+          
+          <div class="info-item">
+            <span class="info-label">Veículo:</span>
+            <span class="info-value" th:text="${pedido.veiculo != null ? pedido.veiculo.marca + ' ' + pedido.veiculo.modelo : '---'}">Toyota Corolla</span>
+          </div>
+        </div>
+        
+        <div class="decision-section">
+          <p class="decision-text">Escolha uma ação para este pedido:</p>
+          
+          <form th:action="@{|/pedidos/avaliar/${pedido.id}|}" method="post">
+            <div class="button-group">
+              <button name="acao" value="aprovar" type="submit" class="btn btn-approve">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                Aprovar Pedido
+              </button>
+              
+              <button name="acao" value="rejeitar" type="submit" class="btn btn-reject">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+                Rejeitar Pedido
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <div class="card-footer">
+        <a th:href="@{/pedidos}" class="btn-back">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Voltar
+        </a>
+      </div>
+    </div>
   </div>
-  <div><a th:href="@{/pedidos}">Voltar</a></div>
 </body>
 </html>

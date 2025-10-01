@@ -2,41 +2,112 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Form Veículo - AutoRent</title>
-  <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+  <link th:href="@{/css/veiculo-form.css}" rel="stylesheet" type="text/css" />
+  <!-- Biblioteca para máscara -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.8/inputmask.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <h1 th:text="${#strings.isEmpty(veiculo.id) ? 'Novo Veículo' : 'Editar Veículo'}">Veículo</h1>
-    
-    <form th:action="@{/veiculos/salvar}" th:object="${veiculo}" method="post">
-      <input type="hidden" th:field="*{id}" />
-      
-      <div class="form-group">
-        <label>Marca</label>
-        <input type="text" th:field="*{marca}" required />
+    <div class="form-card">
+      <div class="form-header">
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 17h14v-5H5v5zm7-8l-4-4h8l-4 4z"/>
+          <path d="M3 17h2v2H3v-2zm16 0h2v2h-2v-2z"/>
+          <circle cx="7" cy="19" r="2"/>
+          <circle cx="17" cy="19" r="2"/>
+        </svg>
+        <h1 th:text="${#strings.isEmpty(veiculo.id) ? 'Novo Veículo' : 'Editar Veículo'}">Veículo</h1>
+        <p class="subtitle">Preencha os dados do veículo</p>
       </div>
       
-      <div class="form-group">
-        <label>Modelo</label>
-        <input type="text" th:field="*{modelo}" required />
-      </div>
-      
-      <div class="form-group">
-        <label>Ano</label>
-        <input type="number" th:field="*{ano}" min="1900" max="2030" required />
-      </div>
-      
-      <div class="form-group">
-        <label>Placa</label>
-        <input type="text" th:field="*{placa}" required />
-      </div>
-      
-      <div class="form-group text-center">
-        <button type="submit" class="btn btn-success">Salvar</button>
-        <a th:href="@{/veiculos}" class="btn">Cancelar</a>
-      </div>
-    </form>
+      <form th:action="@{/veiculos/salvar}" th:object="${veiculo}" method="post">
+        <input type="hidden" th:field="*{id}" />
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="marca">
+              <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+              Marca
+            </label>
+            <input type="text" id="marca" th:field="*{marca}" placeholder="Ex: Toyota, Honda, Ford" required />
+          </div>
+          
+          <div class="form-group">
+            <label for="modelo">
+              <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="10" rx="2"/>
+                <path d="M7 11V7a5 5 0 0110 0v4"/>
+              </svg>
+              Modelo
+            </label>
+            <input type="text" id="modelo" th:field="*{modelo}" placeholder="Ex: Corolla, Civic, Focus" required />
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ano">
+              <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              Ano
+            </label>
+            <input type="text" id="ano" th:field="*{ano}" placeholder="2024" required />
+          </div>
+          
+          <div class="form-group">
+            <label for="placa">
+              <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="4" y="8" width="16" height="10" rx="2"/>
+                <path d="M8 12h8M8 15h4"/>
+              </svg>
+              Placa
+            </label>
+            <input type="text" id="placa" th:field="*{placa}" placeholder="ABC-1D23" required />
+            <small class="input-hint">Formato Mercosul: AAA-0A00</small>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <a th:href="@{/veiculos}" class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Cancelar
+          </a>
+          <button type="submit" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+              <polyline points="17 21 17 13 7 13 7 21"/>
+              <polyline points="7 3 7 8 15 8"/>
+            </svg>
+            Salvar Veículo
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
+
+  <script>
+    // Máscara do ano (apenas 4 dígitos)
+    Inputmask("9999").mask("#ano");
+
+    // Máscara da placa (Mercosul - formato AAA0A00)
+    Inputmask({
+      mask: "[A]{3}-[9][A-9][0-9]{2}",
+      definitions: {
+        'A': { validator: "[A-Za-z]", casing: "upper" },
+        '9': { validator: "[0-9]" }
+      }
+    }).mask("#placa");
+  </script>
 </body>
 </html>

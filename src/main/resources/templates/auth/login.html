@@ -2,28 +2,42 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login - AutoRent</title>
-  <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+  <link th:href="@{/css/login.css}" rel="stylesheet" type="text/css" />
 </head>
 <body>
   <div class="container">
-    <h1>Login</h1>
-    <form th:action="@{/login}" method="post">
-      <div class="form-group">
-        <label>Usuário</label>
-        <input name="username" type="text" required/>
+    <div class="login-card">
+      <div class="logo-section">
+        <div class="logo">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 17H4a2 2 0 01-2-2V5a2 2 0 012-2h16a2 2 0 012 2v10a2 2 0 01-2 2h-1"></path>
+            <polygon points="12 15 17 21 7 21 12 15"></polygon>
+          </svg>
+        </div>
+        <h1>Bem-vindo de volta</h1>
+        <p class="subtitle">Entre com suas credenciais</p>
       </div>
-      <div class="form-group">
-        <label>Senha</label>
-        <input name="password" type="password" required/>
+      
+      <form th:action="@{/login}" method="post">
+        <div class="form-group">
+          <label for="username">Usuário</label>
+          <input name="username" type="text" id="username" placeholder="Digite seu usuário" required/>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input name="password" type="password" id="password" placeholder="Digite sua senha" required/>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Entrar</button>
+      </form>
+      
+      <div class="footer-links">
+        <p>Não tem uma conta? <a th:href="@{/register}">Registrar-se</a></p>
+        <p><a th:href="@{/}" class="back-link">← Voltar para Home</a></p>
       </div>
-      <div class="form-group text-center">
-        <button type="submit" class="btn">Entrar</button>
-      </div>
-    </form>
-    <div class="text-center mt-3">
-      <p><a th:href="@{/register}" class="btn btn-success">Registrar-se</a></p>
-      <p><a th:href="@{/}">← Voltar para Home</a></p>
     </div>
   </div>
 </body>

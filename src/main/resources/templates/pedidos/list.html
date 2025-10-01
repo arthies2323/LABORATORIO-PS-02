@@ -1,25 +1,149 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"/><title>Pedidos</title></head>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedidos - Sistema de Locação</title>
+  <link th:href="@{/css/pedidos.css}" rel="stylesheet" type="text/css" />
+</head>
 <body>
-  <h1>Pedidos</h1>
-  <a th:href="@{/}">Voltar</a> | <a th:href="@{/pedidos/novo}">Novo Pedido</a>
-  <table border="1">
-    <thead><tr><th>ID</th><th>Cliente</th><th>Veículo</th><th>Período</th><th>Status</th><th>Ações</th></tr></thead>
-    <tbody>
-      <tr th:each="p : ${pedidos}">
-        <td th:text="${p.id}">1</td>
-        <td th:text="${p.cliente != null ? p.cliente.nome : '---'}">Cliente</td>
-        <td th:text="${p.veiculo != null ? p.veiculo.marca + ' ' + p.veiculo.modelo : '---'}">Veículo</td>
-        <td th:text="${p.dataInicio} + ' -> ' + ${p.dataFim}">Período</td>
-        <td th:text="${p.status}">Status</td>
-        <td>
-          <a th:href="@{|/pedidos/ver/${p.id}|}">Ver</a>
-          <a th:href="@{|/pedidos/cancelar/${p.id}|}" onclick="return confirm('Cancelar?')">Cancelar</a>
-          <a th:if="${#authorization.expression('hasRole(\'AGENTE\')')}" th:href="@{|/pedidos/avaliar/${p.id}|}">Avaliar</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="header-content">
+        <div class="header-left">
+          <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+            <line x1="1" y1="10" x2="23" y2="10"/>
+          </svg>
+          <div>
+            <h1 class="header-title">Pedidos de Locação</h1>
+            <p class="header-subtitle">Gerencie todos os pedidos do sistema</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <a th:href="@{/}" class="header-btn btn-home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            </svg>
+            Voltar
+          </a>
+          <a th:href="@{/pedidos/novo}" class="header-btn btn-new">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+            Novo Pedido
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="content-wrapper">
+        <div class="table-card">
+          <div class="table-responsive">
+            <table class="orders-table">
+              <thead>
+                <tr>
+                  <th class="th-id">ID</th>
+                  <th class="th-cliente">Cliente</th>
+                  <th class="th-veiculo">Veículo</th>
+                  <th class="th-periodo">Período</th>
+                  <th class="th-status">Status</th>
+                  <th class="th-actions">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="p : ${pedidos}" class="order-row">
+                  <td>
+                    <span class="order-id" th:text="${p.id}">1</span>
+                  </td>
+                  <td>
+                    <div class="client-info">
+                      <svg class="client-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                      </svg>
+                      <span th:text="${p.cliente != null ? p.cliente.nome : 'Não informado'}">Cliente</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="vehicle-info">
+                      <svg class="vehicle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 17h14v-5H5v5z"/>
+                        <circle cx="7" cy="17" r="2"/>
+                        <circle cx="17" cy="17" r="2"/>
+                      </svg>
+                      <span th:text="${p.veiculo != null ? p.veiculo.marca + ' ' + p.veiculo.modelo : 'Não informado'}">Veículo</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="period-info">
+                      <svg class="calendar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                      </svg>
+                      <div class="dates">
+                        <span class="date-start" th:text="${p.dataInicio}">01/01/2025</span>
+                        <span class="date-separator">→</span>
+                        <span class="date-end" th:text="${p.dataFim}">10/01/2025</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="status-badge" th:classappend="${p.status == 'APROVADO' ? 'status-approved' : (p.status == 'PENDENTE' ? 'status-pending' : 'status-cancelled')}" th:text="${p.status}">Status</span>
+                  </td>
+                  <td>
+                    <div class="action-buttons">
+                      <a th:href="@{|/pedidos/ver/${p.id}|}" class="action-link view-link" title="Ver detalhes">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                          <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                        Ver
+                      </a>
+                      <a th:href="@{|/pedidos/cancelar/${p.id}|}" class="action-link cancel-link" title="Cancelar pedido"
+                        onclick="return confirm('Tem certeza que deseja cancelar este pedido?')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <circle cx="12" cy="12" r="10"/>
+                          <line x1="15" y1="9" x2="9" y2="15"/>
+                          <line x1="9" y1="9" x2="15" y2="15"/>
+                        </svg>
+                        Cancelar
+                      </a>
+                      <a th:if="${#authorization.expression('hasRole(\'AGENTE\')')}" 
+                         th:href="@{|/pedidos/avaliar/${p.id}|}" 
+                         class="action-link evaluate-link" 
+                         title="Avaliar pedido">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M9 11l3 3L22 4"/>
+                          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                        </svg>
+                        Avaliar
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+                <tr th:if="${pedidos.isEmpty()}" class="empty-row">
+                  <td colspan="6">
+                    <div class="empty-state">
+                      <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                        <line x1="1" y1="10" x2="23" y2="10"/>
+                      </svg>
+                      <h3>Nenhum pedido encontrado</h3>
+                      <p>Não há pedidos cadastrados no momento</p>
+                      <a th:href="@{/pedidos/novo}" class="btn-empty-action">Criar Primeiro Pedido</a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 </body>
 </html>

@@ -2,23 +2,104 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AutoRent - Home</title>
-  <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+  <link th:href="@{/css/index.css}" rel="stylesheet" type="text/css" />
 </head>
 <body>
-  <div class="container">
-    <h1>AutoRent - Sistema de Aluguel de Carros</h1>
-    <nav>
-      <a th:href="@{/}">Home</a>
-      <a th:href="@{/veiculos}">Veículos</a>
-      <a th:href="@{/clientes}">Clientes</a>
-      <a th:href="@{/pedidos}">Pedidos</a>
-      <a th:href="@{/login}">Login</a>
+  <div class="hero">
+    <nav class="navbar">
+      <div class="nav-brand">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 17H4a2 2 0 01-2-2V5a2 2 0 012-2h16a2 2 0 012 2v10a2 2 0 01-2 2h-1"></path>
+          <polygon points="12 15 17 21 7 21 12 15"></polygon>
+        </svg>
+        <span>AutoRent</span>
+      </div>
+      <div class="nav-links">
+        <a th:href="@{/}" class="active">Home</a>
+        <a th:href="@{/veiculos}">Veículos</a>
+        <a th:href="@{/clientes}">Clientes</a>
+        <a th:href="@{/pedidos}">Pedidos</a>
+        <a th:href="@{/login}" class="btn-login">Login</a>
+      </div>
     </nav>
-    <div class="text-center">
-      <p>Bem-vindo ao sistema de aluguel de carros AutoRent!</p>
-      <p>Protótipo MVC desenvolvido com Spring Boot, H2 e Thymeleaf.</p>
+    
+    <div class="hero-content">
+      <h1>Sistema de Aluguel de Carros</h1>
+      <p class="hero-subtitle">Gerencie veículos, clientes e pedidos de forma simples e eficiente</p>
+      
+      <div class="hero-features">
+        <div class="feature-badge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          Spring Boot
+        </div>
+        <div class="feature-badge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          Thymeleaf
+        </div>
+        <div class="feature-badge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          H2 Database
+        </div>
+      </div>
+      
+      <div class="cta-buttons">
+        <a th:href="@{/veiculos}" class="btn btn-primary">Ver Veículos</a>
+        <a th:href="@{/pedidos}" class="btn btn-secondary">Fazer Pedido</a>
+      </div>
     </div>
   </div>
+  
+  <div class="features-section">
+    <div class="container">
+      <h2>Funcionalidades</h2>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 17H4a2 2 0 01-2-2V5a2 2 0 012-2h16a2 2 0 012 2v10a2 2 0 01-2 2h-1"></path>
+              <polygon points="12 15 17 21 7 21 12 15"></polygon>
+            </svg>
+          </div>
+          <h3>Gestão de Veículos</h3>
+          <p>Cadastre e gerencie toda sua frota de veículos disponíveis para aluguel</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <h3>Cadastro de Clientes</h3>
+          <p>Mantenha um registro completo de todos os seus clientes</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          <h3>Controle de Pedidos</h3>
+          <p>Gerencie solicitações de aluguel com aprovação e acompanhamento</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+    <p>AutoRent - Protótipo MVC desenvolvido com Spring Boot, H2 e Thymeleaf</p>
+  </footer>
 </body>
 </html>
