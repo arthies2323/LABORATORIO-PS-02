@@ -463,3 +463,8 @@ body {
     justify-content: center;
   }
 }
+
+.status-analysis {
+    background-color: #ffc107;
+    color: #333;
+}

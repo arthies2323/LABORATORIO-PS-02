@@ -92,7 +92,11 @@
                     </div>
                   </td>
                   <td>
-                    <span class="status-badge" th:classappend="${p.status == 'APROVADO' ? 'status-approved' : (p.status == 'PENDENTE' ? 'status-pending' : 'status-cancelled')}" th:text="${p.status}">Status</span>
+                    <span class="status-badge" 
+                          th:classappend="${p.status == null ? 'status-analysis' : (p.status == 'APROVADO' ? 'status-approved' : (p.status == 'PENDENTE' ? 'status-pending' : 'status-cancelled'))}" 
+                          th:text="${p.status == null ? 'Em análise' : p.status}">
+                        Status
+                    </span>                  
                   </td>
                   <td>
                     <div class="action-buttons">
@@ -112,7 +116,7 @@
                         </svg>
                         Cancelar
                       </a>
-                      <a th:if="${#authorization.expression('hasRole(\'AGENTE\')')}" 
+                      <a
                          th:href="@{|/pedidos/avaliar/${p.id}|}" 
                          class="action-link evaluate-link" 
                          title="Avaliar pedido">
