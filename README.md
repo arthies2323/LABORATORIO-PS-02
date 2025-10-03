@@ -1,4 +1,6 @@
 # Laboratório de Desenvolvimento de Software - 02 - Sistema de Aluguel de Carros
+Sistema para apoio à gestão de aluguéis de automóveis que
+permita efetuar, cancelar e modificar pedidos através da Internet. 
 
 # Alunos:
 Arthur Henrique , Gabriel Chagas, João Santana, Pedro Maia
