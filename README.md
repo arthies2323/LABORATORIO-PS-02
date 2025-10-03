@@ -18,3 +18,7 @@ mvn clean install
 **Execute**
 
 mvn exec:java
+
+**No navegador**
+
+Acesse localhost:8080
